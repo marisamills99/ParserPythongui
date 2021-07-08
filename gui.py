@@ -24,7 +24,7 @@ def saveFile(entries,filenameEntry, filepath):
     Lines = file1.readlines()
     #check for added comment header before first line
     list1= entries[0]
-    if list1[0].get() != "#add more here":
+    if list1[0].get() != "#add classification here":
         file2.write(list1[0].get())
         file2.write("\n")
     count = 1
@@ -43,7 +43,7 @@ def saveFile(entries,filenameEntry, filepath):
             else:
                 # must be a comment header line
                 list1= entries[count]
-                if list1[0].get() != "#add more here":
+                if list1[0].get() != "#add classification here":
                     file2.write(list1[0].get())
                     file2.write("\n")
         #otherwise keep the old line     
@@ -60,12 +60,13 @@ def saveFile(entries,filenameEntry, filepath):
 def openFile():
     #open a file (by default it will ask for ksh files)
 
-    entries = {}
+    
     filename= filedialog.askopenfilename(initialdir="/", title="Select Files", 
     filetypes=(("KSH files","*.ksh"), ("all files","*.*")) )
+    packEntry(filename)
 
-
-
+def packEntry(filename):
+    entries = {}
     labelfile = Label(frame, text = "Filename:", font=("Cantarell",11), bg= "dark gray")
     labelfile.pack(pady=0.5)
     filenameEntry = Entry(frame, width=50, font=("Sans-Serif",9))
@@ -116,7 +117,7 @@ def openFile():
             commentheaderBox = Entry(frame, width=50, font=("Sans-Serif",9))
             commentheaderBox.pack()
             #fill the boxes with the current assignment statements
-            commentheaderBox.insert(0,"#add more here")
+            commentheaderBox.insert(0,"#add classification here")
             entries[key].append(commentheaderBox)
             i-=1
 
@@ -190,7 +191,7 @@ def previewfile(entries,filepath):
     Lines = file1.readlines()
     #check for first comment header added before file read
     list1= entries[0]
-    if list1[0].get() != "#add more here":
+    if list1[0].get() != "#add classification here":
         file2.write(list1[0].get())
         file2.write("\n")
 
@@ -224,6 +225,7 @@ def previewfile(entries,filepath):
         configfile.insert(INSERT, f.read())
     f.close()
     return
+
 root = Tk()  
 #give gui a title
 root.title('geomatics')
@@ -242,7 +244,9 @@ frame.pack(side= LEFT)
 
 configfile = Text(root,height= 100)
 configfile.pack(side = RIGHT)
-
+fn = sys.argv[1]
+if os.path.exists(fn):
+    packEntry(fn)
 # termf = Frame(root, height=300, width=400)
 
 # termf.pack(fill=BOTH, expand=YES)

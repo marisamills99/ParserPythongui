@@ -1,15 +1,10 @@
-#added
+#add more here
 #TEMPLATE TO RUN PROGRAM f004
-#header line 2
-#header line 3
-
-
-#adddded 2
-EXECBASE=f0077
+#header
+#include this
+EXECBASE=f077
 EXECUTABLE=$PWD/$EXECBASE.exe
-#yaaaa
-OUTPUT_DIR=$PWD/OUTPUT/hi
-#INPUT_DIR=$PWD/INPUT/
+OUTPUT_DIR=$PWD/OUTPUT/
 
 #INPUT FILES
 #INPUT=${INPUT_DIR}
