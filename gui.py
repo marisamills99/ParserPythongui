@@ -66,6 +66,7 @@ def openFile():
     packEntry(filename)
 
 def packEntry(filename):
+    clearFrame()
     entries = {}
     labelfile = Label(frame, text = "Filename:", font=("Cantarell",11), bg= "dark gray")
     labelfile.pack(pady=0.5)
@@ -237,6 +238,7 @@ root.configure(bg='#fff9d1')
 
 # add a button to open a file
 openFileButton= Button(root, text="Open File", command=openFile )
+
 openFileButton.pack(side=TOP)
 #frame 
 frame = Frame(root,bg="dark gray" )
@@ -244,9 +246,10 @@ frame.pack(side= LEFT)
 
 configfile = Text(root,height= 100)
 configfile.pack(side = RIGHT)
-fn = sys.argv[1]
-if os.path.exists(fn):
-    packEntry(fn)
+if len(sys.argv) > 1:
+    fn = sys.argv[1]
+    if os.path.exists(fn):
+        packEntry(fn)
 # termf = Frame(root, height=300, width=400)
 
 # termf.pack(fill=BOTH, expand=YES)
