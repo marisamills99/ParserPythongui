@@ -1,9 +1,10 @@
 from tkinter import *
 import tkinter as tk
+import tkinter.ttk as ttk 
 from tkinter import filedialog
 import os,subprocess
 import sys
-
+from ttkthemes import ThemedStyle
 
 def saveFile(entries,filenameEntry, filepath):
     #read the current file line by line 
@@ -25,6 +26,9 @@ def saveFile(entries,filenameEntry, filepath):
     #check for added comment header before first line
     list1= entries[0]
     if list1[0].get() != "#add classification here":
+        #check if they forgot #
+        if list1[0].get()[0] != '#':
+            file2.write('#')
         file2.write(list1[0].get())
         file2.write("\n")
     count = 1
@@ -36,6 +40,9 @@ def saveFile(entries,filenameEntry, filepath):
                 list1= entries[count]
                 #check if comment was added
                 if list1[1].get() != "#add a comment for below line":
+                    #check if they forgot #
+                    if list1[1].get()[0] != '#':
+                        file2.write('#')
                     file2.write(list1[1].get())
                     file2.write("\n")
                 file2.write(list1[0].get())
@@ -44,6 +51,9 @@ def saveFile(entries,filenameEntry, filepath):
                 # must be a comment header line
                 list1= entries[count]
                 if list1[0].get() != "#add classification here":
+                    #check if they forgot #
+                    if list1[0].get()[0] != '#':
+                        file2.write('#')
                     file2.write(list1[0].get())
                     file2.write("\n")
         #otherwise keep the old line     
@@ -68,9 +78,9 @@ def openFile():
 def packEntry(filename):
     clearFrame()
     entries = {}
-    labelfile = Label(frame, text = "Filename:", font=("Cantarell",11), bg= "dark gray")
+    labelfile = Label(frame, text = "Filename:",font=("Cantarell",10), bg= "dark gray")
     labelfile.pack(pady=0.5)
-    filenameEntry = Entry(frame, width=50, font=("Sans-Serif",9))
+    filenameEntry = ttk.Entry(frame, width=50,style="Custom.TEntry")
     filenameEntry.pack()
     filenameEntry.insert(0,"Enter a descriptive filename here")
 
@@ -85,7 +95,7 @@ def packEntry(filename):
             if string[0]=="#":
                 entries.setdefault(key, [])
                 #found a comment header 
-                commentheaderBox = Entry(frame, width=50, font=("Sans-Serif",9))
+                commentheaderBox = ttk.Entry(frame, width=50)
                 commentheaderBox.pack()
                 #fill the boxes with the current assignment statements
                 commentheaderBox.insert(0,string)
@@ -93,17 +103,17 @@ def packEntry(filename):
                 i-=1
             else:
                 #add a label and a input box to gui 
-                label = Label(frame, text = "Input "+ str(i) + ":", font=("Cantarell",11), bg= "dark gray")
+                label = Label(frame, text = "Input "+ str(i) + ":",font=("Cantarell",10), bg= "dark gray")
                 label.pack(pady=0.5)
 
                 #add a comment box
-                commentBox = Entry(frame, width=50, font=("Sans-Serif",11))
+                commentBox = ttk.Entry(frame, width=50,style="Custom.TEntry")
                 commentBox.pack(pady=1)
 
                 #fill the boxes with the current assignment statements
                 commentBox.insert(0,"#add a comment for below line")
 
-                inputBox = Entry(frame, width=50, font=("Sans-Serif",11))
+                inputBox = ttk.Entry(frame, width=50)
                 inputBox.pack(pady=1)
 
                 #fill the boxes with the current assignment statements
@@ -115,7 +125,7 @@ def packEntry(filename):
                 entries[key].append(commentBox)
         else:
             entries.setdefault(key, [])
-            commentheaderBox = Entry(frame, width=50, font=("Sans-Serif",9))
+            commentheaderBox = ttk.Entry(frame, width=50,style="Custom.TEntry" ) 
             commentheaderBox.pack()
             #fill the boxes with the current assignment statements
             commentheaderBox.insert(0,"#add classification here")
@@ -125,10 +135,10 @@ def packEntry(filename):
        
 
     #add a submit button to upload the changes to the file 
-    submit= Button(frame, text="Save File with Changes",command=lambda: saveFile(entries,filenameEntry,filename))
-    run= Button(frame, text="Run file",command=lambda: runScript(filename))
-    preview= Button(frame, text="Preview file",command=lambda: previewfile(entries,filename))
-    clear= Button(frame, text="Reset",command=clearFrame )
+    submit= ttk.Button(frame, text="Save File with Changes",command=lambda: saveFile(entries,filenameEntry,filename))
+    run= ttk.Button(frame, text="Run file",command=lambda: runScript(filename))
+    preview= ttk.Button(frame, text="Preview file",command=lambda: previewfile(entries,filename))
+    clear= ttk.Button(frame, text="Reset",command=clearFrame )
     submit.pack(pady=5)
     preview.pack(pady=5)
     run.pack(pady=5)
@@ -142,7 +152,7 @@ def parse(filename):
     Lines = file1.readlines()
     count = 0
     inheader=True
-    label = Label(frame, text = "Header comments:", font=("Cantarell",11), bg= "dark gray")
+    label = Label(frame, text = "Header comments:",font=("Cantarell",10), bg= "dark gray")
     label.pack()
     for line in Lines:
         count += 1
@@ -193,6 +203,9 @@ def previewfile(entries,filepath):
     #check for first comment header added before file read
     list1= entries[0]
     if list1[0].get() != "#add classification here":
+        #check if they forgot #
+        if list1[0].get()[0] != '#':
+            file2.write('#')
         file2.write(list1[0].get())
         file2.write("\n")
 
@@ -205,6 +218,9 @@ def previewfile(entries,filepath):
                 list1= entries[count]
                 #check if comment was added
                 if list1[1].get() != "#add a comment for below line":
+                    #check if they forgot #
+                    if list1[1].get()[0] != '#':
+                        file2.write('#')
                     file2.write(list1[1].get())
                     file2.write("\n")
                 #write the conent 
@@ -213,6 +229,9 @@ def previewfile(entries,filepath):
             else:
                 # must be a comment header line
                 list1= entries[count]
+                #check if they forgot #
+                if list1[0].get()[0] != '#':
+                    file2.write('#')
                 file2.write(list1[0].get())
                 file2.write("\n")
         #otherwise keep the old line     
@@ -230,14 +249,17 @@ def previewfile(entries,filepath):
 root = Tk()  
 #give gui a title
 root.title('geomatics')
-root.geometry('900x600')
+root.geometry('900x800')
 
 root.configure(bg='#fff9d1')
 
 #background
+style = ThemedStyle(root)
+style.set_theme("breeze")
+style.configure('Custom.TEntry', foreground='teal')
 
 # add a button to open a file
-openFileButton= Button(root, text="Open File", command=openFile )
+openFileButton= ttk.Button(root, text="Open File", command=openFile )
 
 openFileButton.pack(side=TOP)
 #frame 
