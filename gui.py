@@ -31,6 +31,12 @@ def saveFile(entries,filenameEntry, filepath):
             file2.write('#')
         file2.write(list1[0].get())
         file2.write("\n")
+    if list1[1].get() != "#add more comments here":
+        #check if they forgot #
+        if list1[1].get()[0] != '#':
+            file2.write('#')
+        file2.write(list1[1].get())
+        file2.write("\n")
     count = 1
     #iterate through the lines of the input file 
     for line in Lines:
@@ -55,6 +61,12 @@ def saveFile(entries,filenameEntry, filepath):
                     if list1[0].get()[0] != '#':
                         file2.write('#')
                     file2.write(list1[0].get())
+                    file2.write("\n")
+                if list1[1].get() != "#add more comments here":
+                    #check if they forgot #
+                    if list1[1].get()[0] != '#':
+                        file2.write('#')
+                    file2.write(list1[1].get())
                     file2.write("\n")
         #otherwise keep the old line     
         else:
@@ -103,7 +115,7 @@ def packEntry(filename):
                 i-=1
             else:
                 #add a label and a input box to gui 
-                label = Label(frame, text = "Input "+ str(i) + ":",font=("Cantarell",10), bg= "dark gray")
+                label = Label(frame, text = "Variable "+ str(i) + ":",font=("Cantarell",10), bg= "dark gray")
                 label.pack(pady=0.5)
 
                 #add a comment box
@@ -130,6 +142,12 @@ def packEntry(filename):
             #fill the boxes with the current assignment statements
             commentheaderBox.insert(0,"#add classification here")
             entries[key].append(commentheaderBox)
+
+            commentheaderBox2 = ttk.Entry(frame, width=50,style="Custom.TEntry" ) 
+            commentheaderBox2.pack()
+            #fill the boxes with the current assignment statements
+            commentheaderBox2.insert(0,"#add more comments here")
+            entries[key].append(commentheaderBox2)
             i-=1
 
        
@@ -208,7 +226,12 @@ def previewfile(entries,filepath):
             file2.write('#')
         file2.write(list1[0].get())
         file2.write("\n")
-
+    if list1[1].get() != "#add more comments here":
+        #check if they forgot #
+        if list1[1].get()[0] != '#':
+            file2.write('#')
+        file2.write(list1[1].get())
+        file2.write("\n")
     count = 1
     #iterate through the lines of the input file 
     for line in Lines:
