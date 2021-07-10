@@ -1,24 +1,16 @@
-#TEMPLATE TO RUN PROGRAM f004
-#header line 2
-#header line 3
-
-
-EXECBASE=f004
+#unclass
+#This needs more comments here
+EXECBASE=ck001
 EXECUTABLE=$PWD/$EXECBASE.exe
-OUTPUT_DIR=$PWD/OUTPUT/
-INPUT_DIR=$PWD/INPUT/
+rm -f fort.*
 
-#INPUT FILES
-#INPUT=${INPUT_DIR}
+ln -s llh.bin fort.9
+ln -s ck001-out.txt fort.10
+ln -s ck001-out.bin fort.11
 
-echo 'No input required for f004'
+echo $EXECUTABLE
 
-#OUTPUT
+$EXECUTABLE < input.dat > output.dat
 
-echo 'Output going to ' ${OUTPUT_DIR}f004.out
+rm fort.*
 
-$EXECUTABLE > ${OUTPUT_DIR}f004.out
-
-echo ' '
-echo 'PROGRAM f004 HAS ENDED'
-#END KSH

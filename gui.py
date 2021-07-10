@@ -56,18 +56,11 @@ def saveFile(entries,filenameEntry, filepath):
             else:
                 # must be a comment header line
                 list1= entries[count]
-                if list1[0].get() != "#add classification here":
-                    #check if they forgot #
-                    if list1[0].get()[0] != '#':
-                        file2.write('#')
-                    file2.write(list1[0].get())
-                    file2.write("\n")
-                if list1[1].get() != "#add more comments here":
-                    #check if they forgot #
-                    if list1[1].get()[0] != '#':
-                        file2.write('#')
-                    file2.write(list1[1].get())
-                    file2.write("\n")
+                #check if they forgot #
+                if list1[0].get()[0] != '#':
+                    file2.write('#')
+                file2.write(list1[0].get())
+                file2.write("\n")
         #otherwise keep the old line     
         else:
             file2.write(line)
@@ -272,7 +265,7 @@ def previewfile(entries,filepath):
 root = Tk()  
 #give gui a title
 root.title('geomatics')
-root.geometry('900x800')
+root.geometry('800x600')
 
 root.configure(bg='#fff9d1')
 
@@ -281,16 +274,75 @@ style = ThemedStyle(root)
 style.set_theme("breeze")
 style.configure('Custom.TEntry', foreground='teal')
 
+
+# Create A Main frame
+
+main_frame = Frame(root)
+
+main_frame.pack(fill=BOTH,expand=1)
+
+
+
+# Create Frame for X Scrollbar
+
+sec = Frame(main_frame)
+
+sec.pack(fill=X,side=BOTTOM)
+
+
+
+# Create A Canvas
+
+my_canvas = Canvas(main_frame)
+
+my_canvas.pack(side=LEFT,fill=BOTH,expand=1)
+
+
+
+# Add A Scrollbars to Canvas
+
+x_scrollbar = ttk.Scrollbar(sec,orient=HORIZONTAL,command=my_canvas.xview)
+
+x_scrollbar.pack(side=BOTTOM,fill=X)
+
+y_scrollbar = ttk.Scrollbar(main_frame,orient=VERTICAL,command=my_canvas.yview)
+y_scrollbar.pack(side=RIGHT,fill=Y)
+
+
+
+# Configure the canvas
+
+my_canvas.configure(xscrollcommand=x_scrollbar.set)
+
+my_canvas.configure(yscrollcommand=y_scrollbar.set)
+
+my_canvas.bind("<Configure>",lambda e: my_canvas.config(scrollregion= my_canvas.bbox(ALL))) 
+
+
+
+# Create Another Frame INSIDE the Canvas
+
+second_frame = Frame(my_canvas)
+
+
+
+# Add that New Frame a Window In The Canvas
+
+my_canvas.create_window((0,0),window= second_frame, anchor="nw")
+
+
 # add a button to open a file
-openFileButton= ttk.Button(root, text="Open File", command=openFile )
+openFileButton= ttk.Button(second_frame, text="Open File", command=openFile )
 
-openFileButton.pack(side=TOP)
-#frame 
-frame = Frame(root,bg="dark gray" )
-frame.pack(side= LEFT)
+openFileButton.pack(side=TOP, anchor=CENTER)
 
-configfile = Text(root,height= 100)
+
+configfile = Text(second_frame, height=100, width=65)
 configfile.pack(side = RIGHT)
+
+#frame 
+frame = Frame(second_frame,bg="dark gray" )
+frame.pack(side= LEFT, anchor=NW)
 if len(sys.argv) > 1:
     fn = sys.argv[1]
     if os.path.exists(fn):

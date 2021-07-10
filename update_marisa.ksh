@@ -1,6 +1,5 @@
-#unclass
 #TEMPLATE TO RUN PROGRAM f004
-#hi
+#header line 2
 #header line 3
 
 
