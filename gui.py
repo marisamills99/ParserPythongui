@@ -199,11 +199,26 @@ def clearFrame():
 def runScript(filepath):
     configfile.delete('1.0', END)
     configfile.config( bg="black", fg="white",insertbackground='white')
-    with open("output.txt", "w+") as output:
-        subprocess.call(["python", "bye.py"], stdout=output)
+    # with open("output.txt", "w+") as output:
+    #     subprocess.call(["python", "bye.py"], stdout=output)
     
-    with open("output.txt", 'r') as f:
-        configfile.insert(INSERT, f.read())
+    # with open("output.txt", 'r') as f:
+    #     configfile.insert(INSERT, f.read())
+    file1 = open(filepath, 'r')
+    Lines = file1.readlines()
+    for line in Lines:
+        if 'echo' in line:
+            # echo_arg=line.split("echo",1)[1]
+            # if '$' in line:
+            #     arg=line.split("$",1)[1] 
+            #     print(arg)
+            #     echo_arg = os.environ[arg.strip()]
+            #cmd = subprocess.Popen(["echo", echo_arg]
+            d = dict(os.environ)
+            p = subprocess.Popen(line, shell=True, env=d, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            subprocess_return = p.stdout.read()
+            configfile.insert(INSERT,subprocess_return)
+
     configfile.bind('<Return>', execute)
 def previewfile(entries,filepath):
     configfile.delete('1.0', END)
