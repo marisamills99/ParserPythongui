@@ -206,12 +206,11 @@ def clearFrame():
     # this will clear frame and frame will be empty
     # if you want to hide the empty panel then
     
-    
+#simple function to echo args
 def runScript(filepath):
     configfile.delete('1.0', END)
     configfile.config( bg="black", fg="white",insertbackground='white')
-    # with open("output.txt", "w+") as output:
-    #     subprocess.call(["python", "bye.py"], stdout=output)
+    
     
     # with open("output.txt", 'r') as f:
     #     configfile.insert(INSERT, f.read())
