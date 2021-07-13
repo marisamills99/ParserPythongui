@@ -91,9 +91,9 @@ def packEntry(filename):
 
     #parse the file and get a dictionary {linenumber: assignment_statement}
     inputs= parse(filename)
-    i=0
+    i,j,k=0,0,0
     for key,value in inputs.items():
-        i+=1
+        
         #not an added comment header
         if key > 0:
             string= inputs[key]
@@ -105,12 +105,22 @@ def packEntry(filename):
                 #fill the boxes with the current assignment statements
                 commentheaderBox.insert(0,string)
                 entries[key].append(commentheaderBox)
-                i-=1
+                
             else:
                 #add a label and a input box to gui 
-                label = Label(frame, text = "Variable "+ str(i) + ":",font=("Cantarell",10), bg= "dark gray")
-                label.pack(pady=0.5)
+                if '=' in string:
+                    i=i+1
+                    label = Label(frame, text = "Variable "+ str(i) + ":",font=("Cantarell",10), bg= "dark gray")
+                    label.pack(pady=0.5)
+                elif '<' in string or '>' in string:
+                    j=j+1
+                    label = Label(frame, text = "Input/Output "+ str(j) + ":",font=("Cantarell",10), bg= "dark gray")
+                    label.pack(pady=0.5)
 
+                elif 'ln -s' in string:
+                    k=k+1
+                    label = Label(frame, text = "Symbolic link "+ str(k) + ":",font=("Cantarell",10), bg= "dark gray")
+                    label.pack(pady=0.5)
                 #add a comment box
                 commentBox = ttk.Entry(frame, width=50,style="Custom.TEntry")
                 commentBox.pack(pady=1)
@@ -141,7 +151,7 @@ def packEntry(filename):
             #fill the boxes with the current assignment statements
             commentheaderBox2.insert(0,"#add more comments here")
             entries[key].append(commentheaderBox2)
-            i-=1
+            
 
        
 
@@ -175,7 +185,7 @@ def parse(filename):
             # add to dictionary at line number 
             dict[count]= line.strip()
         #add to dictionary if the line is an assignemnt and is not a comment 
-        if '=' in line and line[0]!='#' :
+        if ('=' in line or '>' in line or '<' in line or 'ln -s' in line)and line[0]!='#' :
             dict[count]= line.strip()
     #The dictonary is in format {linenumber : line}
     return dict
