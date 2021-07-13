@@ -112,11 +112,12 @@ def packEntry(filename):
                     i=i+1
                     label = Label(frame, text = "Variable "+ str(i) + ":",font=("Cantarell",10), bg= "dark gray")
                     label.pack(pady=0.5)
+                #check for piped inputs or outputs
                 elif '<' in string or '>' in string:
                     j=j+1
                     label = Label(frame, text = "Input/Output "+ str(j) + ":",font=("Cantarell",10), bg= "dark gray")
                     label.pack(pady=0.5)
-
+                # check for links
                 elif 'ln -s' in string:
                     k=k+1
                     label = Label(frame, text = "Symbolic link "+ str(k) + ":",font=("Cantarell",10), bg= "dark gray")
