@@ -110,8 +110,8 @@ def packEntry(filename):
                 #add a label and a input box to gui 
                 if '=' in string:
                     i=i+1
-                    label = Label(frame, text = "Variable "+ str(i) + ":",font=("Cantarell",10), bg= "dark gray")
-                    label.pack(pady=0.5)
+                    #label = Label(frame, text = "Variable "+ str(i) + ":",font=("Cantarell",10), bg= "dark gray")
+                    #label.pack(pady=0.5)
                 #check for piped inputs or outputs
                 elif '<' in string or '>' in string:
                     #check if it was an input output or both in line
@@ -197,7 +197,7 @@ def parse(filename):
             # add to dictionary at line number 
             dict[count]= line.strip()
         #add to dictionary if the line is an assignemnt and is not a comment 
-        if ('=' in line or '>' in line or '<' in line or 'ln -s' in line)and line[0]!='#' :
+        if ( '>' in line or '<' in line or 'ln -s' in line)and line[0]!='#' :
             dict[count]= line.strip()
     #The dictonary is in format {linenumber : line}
     return dict
