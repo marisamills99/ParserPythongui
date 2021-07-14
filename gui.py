@@ -5,7 +5,7 @@ from tkinter import filedialog
 import os,subprocess
 import sys
 from ttkthemes import ThemedStyle
-
+entries = {}
 def saveFile(entries,filenameEntry, filepath):
     #read the current file line by line 
     #check if the current line has been edited 
@@ -37,6 +37,17 @@ def saveFile(entries,filenameEntry, filepath):
             file2.write('#')
         file2.write(list1[1].get())
         file2.write("\n")
+    #check for extra comments added through button
+    if len(list1)>2:
+        i=2
+        while i <len(list1):
+            if list1[i].get() != "#add more comments here":
+                #check if they forgot #
+                if list1[i].get()[0] != '#':
+                    file2.write('#')
+                file2.write(list1[i].get())
+                file2.write("\n")
+            i+=1
     count = 1
     #iterate through the lines of the input file 
     for line in Lines:
@@ -79,10 +90,16 @@ def openFile():
     filename= filedialog.askopenfilename(initialdir="/", title="Select Files", 
     filetypes=(("KSH files","*.ksh"), ("all files","*.*")) )
     packEntry(filename)
+def addComments(newFrame):
+    added = ttk.Entry(newFrame, width=50,style="Custom.TEntry")
+    added.pack(pady=1)
+    #fill the boxes with the current assignment statements
+    added.insert(0,"#add more comments here")
+    entries[0].append(added)
 
 def packEntry(filename):
     clearFrame()
-    entries = {}
+    
     labelfile = Label(frame, text = "Filename:",font=("Cantarell",10), bg= "dark gray")
     labelfile.pack(pady=0.5)
     filenameEntry = ttk.Entry(frame, width=50,style="Custom.TEntry")
@@ -91,6 +108,8 @@ def packEntry(filename):
 
     #parse the file and get a dictionary {linenumber: assignment_statement}
     inputs= parse(filename)
+    newframe = Frame(frame, bg="dark gray")
+    newframe.pack()
     i,j,k,c=0,0,0,0
     for key,value in inputs.items():
         
@@ -100,7 +119,7 @@ def packEntry(filename):
             if string[0]=="#":
                 entries.setdefault(key, [])
                 #found a comment header 
-                commentheaderBox = ttk.Entry(frame, width=50)
+                commentheaderBox = ttk.Entry(newframe, width=50)
                 commentheaderBox.pack()
                 #fill the boxes with the current assignment statements
                 commentheaderBox.insert(0,string)
@@ -152,13 +171,15 @@ def packEntry(filename):
                 entries[key].append(commentBox)
         else:
             entries.setdefault(key, [])
-            commentheaderBox = ttk.Entry(frame, width=50,style="Custom.TEntry" ) 
+            addComment= ttk.Button(newframe, text="add extra comment line",command=lambda: addComments(newframe))
+            addComment.pack()
+            commentheaderBox = ttk.Entry(newframe, width=50,style="Custom.TEntry" ) 
             commentheaderBox.pack()
             #fill the boxes with the current assignment statements
             commentheaderBox.insert(0,"#add classification here")
             entries[key].append(commentheaderBox)
 
-            commentheaderBox2 = ttk.Entry(frame, width=50,style="Custom.TEntry" ) 
+            commentheaderBox2 = ttk.Entry(newframe, width=50,style="Custom.TEntry" ) 
             commentheaderBox2.pack()
             #fill the boxes with the current assignment statements
             commentheaderBox2.insert(0,"#add more comments here")
@@ -261,6 +282,17 @@ def previewfile(entries,filepath):
             file2.write('#')
         file2.write(list1[1].get())
         file2.write("\n")
+    #check for extra added comments 
+    if len(list1)>2:
+        i=2
+        while i <len(list1):
+            if list1[i].get() != "#add more comments here":
+                #check if they forgot #
+                if list1[i].get()[0] != '#':
+                    file2.write('#')
+                file2.write(list1[i].get())
+                file2.write("\n")
+            i+=1
     count = 1
     #iterate through the lines of the input file 
     for line in Lines:
@@ -379,6 +411,7 @@ configfile.pack(side = RIGHT)
 #frame 
 frame = Frame(second_frame,bg="dark gray" )
 frame.pack(side= LEFT, anchor=NW)
+
 if len(sys.argv) > 1:
     fn = sys.argv[1]
     if os.path.exists(fn):
