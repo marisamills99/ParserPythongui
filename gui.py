@@ -86,7 +86,6 @@ def saveFile(entries,filenameEntry, filepath):
 def openFile():
     #open a file (by default it will ask for ksh files)
 
-    
     filename= filedialog.askopenfilename(initialdir="/", title="Select Files", 
     filetypes=(("KSH files","*.ksh"), ("all files","*.*")) )
     packEntry(filename)
@@ -228,13 +227,12 @@ def execute(code):
         exit()
     configfile.insert('end', f'\n{subprocess.getoutput(command)}')
 def clearFrame():
-
+    entries.clear()
     # destroy all widgets from frame
     configfile.delete('1.0', END)
     for widget in frame.winfo_children():
        widget.destroy()
-    for widget in frame.winfo_children():
-       widget.destroy()
+    
     # this will clear frame and frame will be empty
     # if you want to hide the empty panel then
     
