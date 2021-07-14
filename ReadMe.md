@@ -23,3 +23,7 @@ you may use this black screen like a terminal (for example try typing in python 
 - You may edit these parsed out variables, add extra comments or classification, and provide an updated file name.
 
 - Finally you may preview your changes and save the updated file to your current directory
+
+### Screenshot 
+
+<img src="example.png" alt="screenshot" height="650"/>
