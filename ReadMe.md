@@ -4,13 +4,13 @@
 ### Prerequisites
 This code uses python ttk themes to run you can download using command:
 
-**python -m pip install git+https://github.com/RedFantom/ttkthemes**
+``` python -m pip install git+https://github.com/RedFantom/ttkthemes** ```
 
 ### How to run
 Run this code using command:
 (you have the option to give a file to pre-populate the gui)
 
-**python gui.py {optional filepath}**
+``` python gui.py {optional filepath} ```
 
 ### Features
 - In this gui you can run a file(by default it is just echoing statements back)
