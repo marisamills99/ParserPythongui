@@ -91,7 +91,7 @@ def packEntry(filename):
 
     #parse the file and get a dictionary {linenumber: assignment_statement}
     inputs= parse(filename)
-    i,j,k=0,0,0
+    i,j,k,c=0,0,0,0
     for key,value in inputs.items():
         
         #not an added comment header
@@ -114,9 +114,20 @@ def packEntry(filename):
                     label.pack(pady=0.5)
                 #check for piped inputs or outputs
                 elif '<' in string or '>' in string:
-                    j=j+1
-                    label = Label(frame, text = "Input/Output "+ str(j) + ":",font=("Cantarell",10), bg= "dark gray")
-                    label.pack(pady=0.5)
+                    #check if it was an input output or both in line
+                    if '<' in string and '>' in string:
+                        j=j+1
+                        c=c+1
+                        label = Label(frame, text = "Input "+ str(j) + " and Output "+str(c)+ ":",font=("Cantarell",10), bg= "dark gray")
+                        label.pack(pady=0.5)
+                    elif '<' in string:
+                        j=j+1
+                        label = Label(frame, text = "Input"+ str(j) + ":",font=("Cantarell",10), bg= "dark gray")
+                        label.pack(pady=0.5)
+                    elif '>' in string:
+                        c=c+1
+                        label = Label(frame, text = "Output "+ str(c) + ":",font=("Cantarell",10), bg= "dark gray")
+                        label.pack(pady=0.5)
                 # check for links
                 elif 'ln -s' in string:
                     k=k+1
