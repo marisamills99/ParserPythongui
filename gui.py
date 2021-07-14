@@ -31,15 +31,10 @@ def saveFile(entries,filenameEntry, filepath):
             file2.write('#')
         file2.write(list1[0].get())
         file2.write("\n")
-    if list1[1].get() != "#add more comments here":
-        #check if they forgot #
-        if list1[1].get()[0] != '#':
-            file2.write('#')
-        file2.write(list1[1].get())
-        file2.write("\n")
+    
     #check for extra comments added through button
-    if len(list1)>2:
-        i=2
+    if len(list1)>1:
+        i=1
         while i <len(list1):
             if list1[i].get() != "#add more comments here":
                 #check if they forgot #
@@ -91,7 +86,7 @@ def openFile():
     packEntry(filename)
 def addComments(newFrame):
     added = ttk.Entry(newFrame, width=50,style="Custom.TEntry")
-    added.pack(pady=1)
+    added.pack(pady=1,anchor=N)
     #fill the boxes with the current assignment statements
     added.insert(0,"#add more comments here")
     entries[0].append(added)
@@ -118,7 +113,7 @@ def packEntry(filename):
             if string[0]=="#":
                 entries.setdefault(key, [])
                 #found a comment header 
-                commentheaderBox = ttk.Entry(newframe, width=50)
+                commentheaderBox = ttk.Entry(frame, width=50)
                 commentheaderBox.pack()
                 #fill the boxes with the current assignment statements
                 commentheaderBox.insert(0,string)
@@ -178,11 +173,7 @@ def packEntry(filename):
             commentheaderBox.insert(0,"#add classification here")
             entries[key].append(commentheaderBox)
 
-            commentheaderBox2 = ttk.Entry(newframe, width=50,style="Custom.TEntry" ) 
-            commentheaderBox2.pack()
-            #fill the boxes with the current assignment statements
-            commentheaderBox2.insert(0,"#add more comments here")
-            entries[key].append(commentheaderBox2)
+            
             
 
        
@@ -268,21 +259,17 @@ def previewfile(entries,filepath):
     Lines = file1.readlines()
     #check for first comment header added before file read
     list1= entries[0]
+
     if list1[0].get() != "#add classification here":
         #check if they forgot #
         if list1[0].get()[0] != '#':
             file2.write('#')
         file2.write(list1[0].get())
         file2.write("\n")
-    if list1[1].get() != "#add more comments here":
-        #check if they forgot #
-        if list1[1].get()[0] != '#':
-            file2.write('#')
-        file2.write(list1[1].get())
-        file2.write("\n")
+    
     #check for extra added comments 
-    if len(list1)>2:
-        i=2
+    if len(list1)>1:
+        i=1
         while i <len(list1):
             if list1[i].get() != "#add more comments here":
                 #check if they forgot #
