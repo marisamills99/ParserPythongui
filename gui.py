@@ -83,7 +83,11 @@ def openFile():
 
     filename= filedialog.askopenfilename(initialdir="/", title="Select Files", 
     filetypes=(("KSH files","*.ksh"), ("all files","*.*")) )
-    packEntry(filename)
+    #check file format
+    if ".ksh" not in filename and ".sh" not in filename:
+        tk.messagebox.showinfo("geomatics.",  "Improper file format! Choose a shell script.")
+    else:
+        packEntry(filename)
 def addComments(newFrame):
     added = ttk.Entry(newFrame, width=50,style="Custom.TEntry")
     added.pack(pady=1,anchor=N)
